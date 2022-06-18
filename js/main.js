@@ -1,14 +1,14 @@
-const randomInteger = function (min, max) {
+const getRandomInteger = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const randomFloat = function (min, max, digits = 2) {
-  min *= 100;
-  max *= 100;
-  return (randomInteger(min, max) / 100).toFixed(digits);
+const getRandomFloat = function (min, max, digits = 2) {
+  min *= Math.pow(10,digits) ;
+  max *= Math.pow(10,digits);
+  return (getRandomInteger(min, max) / Math.pow(10,digits)).toFixed(digits);
 };
 
-randomInteger(0, 10);
-randomFloat(0, 10, 2);
+getRandomInteger(0, 10);
+getRandomFloat(0, 10, 2);
