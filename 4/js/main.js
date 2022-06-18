@@ -41,5 +41,5 @@ const offer = {
   photos: Array.from( {length: getRandomInteger(0,2)}, (v, k) => allPhotos[k] )
 };
 
-author.avatar = allAvatars[getRandomInteger(1,10)];
+author.avatar = allAvatars[getRandomInteger(0,9)];
 offer.title = 'Отличное предложение';
