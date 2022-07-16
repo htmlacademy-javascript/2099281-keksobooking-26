@@ -83,6 +83,11 @@ const setElementLim = (element, value ) => {
 //При изменении значений, меняем лимиты связанных элеменов
 adOfferRoomNum.addEventListener('change',() => { setElementLim(adOffercapacity, adOfferRoomNum.value); } );
 adOffercapacity.addEventListener('change',() => { setElementLim(adOfferRoomNum, adOffercapacity.value); } );
+//Поля «Время заезда» и «Время выезда» синхронизированы
+const adOfferCheckIn = adForm.querySelector('#timein');
+const adOfferCheckOut = adForm.querySelector('#timeout');
+adOfferCheckIn.addEventListener('change',() => { adOfferCheckOut.value = adOfferCheckIn.value; } );
+adOfferCheckOut.addEventListener('change',() => { adOfferCheckIn.value = adOfferCheckOut.value;  } );
 
 //console.log(adOffercapacity.getAttribute('max'));
 const pristine = new Pristine(adForm);
