@@ -13,7 +13,7 @@ const makeFormInactive = (form) => {
 const makeFormActive = (form) => {
   form.classList.remove('ad-form--disabled');
   form.querySelectorAll('fieldset').forEach((element) => {
-    element.setAttribute('disabled', false);
+    element.removeAttribute('disabled');
   });
 };
 /**/

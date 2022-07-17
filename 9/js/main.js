@@ -41,4 +41,3 @@ for(let i = 0; i < AD_NUMBER; i++){
 }
 
 resetDefaultMarker();
-

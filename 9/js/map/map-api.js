@@ -15,6 +15,8 @@ import {
   fillAddressCoordinates
 } from '../utils/util.js';
 
+const COORDINATES_DECIMAL_PLACES = 5;
+
 //Создание карты с позициионированием на центр Токио
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -51,7 +53,7 @@ const createNewMarker = (lat, lng, icon, draggable, element) => {
     .on('moveend', (evt) => {
       if (element) {
         const coorinates = evt.target.getLatLng();
-        element.value = fillAddressCoordinates(coorinates.lat,coorinates.lng);
+        element.value = fillAddressCoordinates(coorinates.lat.toFixed(COORDINATES_DECIMAL_PLACES),coorinates.lng.toFixed(COORDINATES_DECIMAL_PLACES));
       }
     });
   return marker;
