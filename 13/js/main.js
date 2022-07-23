@@ -1,4 +1,3 @@
-//import { generatedAdvertisements } from './data/generation/datagen.js';
 import { beforeLoad, onPageLoading } from './form-api.js';
 import './map/map-api.js';
 import { getAdvertisementsAll } from './data/fetch-api.js';
@@ -7,6 +6,6 @@ import { errorHandler} from './utils/util.js';
 
 //блокируем все формы на странице
 onPageLoading();
-//placeAdvertisements(generatedAdvertisements);
+//получаем все данные и, при успехе, разблокируем формы и размещаем объявления
 getAdvertisementsAll(beforeLoad,placeAdvertisements,errorHandler);
 

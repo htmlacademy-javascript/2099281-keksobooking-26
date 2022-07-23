@@ -71,7 +71,7 @@ const systemMessage = (message,success) => {
     }
     );
   }
-  document.addEventListener('keydown', (evt) => {
+  document.addKeyEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       if (success) {
@@ -163,7 +163,7 @@ const throttle = (callback, delayBetweenFrames) => {
 };
 
 //Обработчик событий любого элемента
-const addEventListener = (element, onChange ) => element.addEventListener('change', () => {onChange();});
+const addKeyEventListener = (element, onChange ) => element.addEventListener('change', () => {onChange();});
 
 
 export {
@@ -173,7 +173,7 @@ export {
   getWordEnding,
   fillAddressCoordinates,
   errorHandler,
-  addEventListener,
+  addKeyEventListener,
   debounce,
   throttle
 };

@@ -26,7 +26,7 @@ import {
 } from '../data/fetch-api.js';
 
 import {
-  addEventListener, debounce
+  addKeyEventListener, debounce
 } from '../utils/util.js';
 
 // Функции размещения объявлений на карте
@@ -54,19 +54,7 @@ const PRICE_TYPES = {
 //Сравнение стоимости номер с границей диапазона цен
 const comparePrices = (price, filter) => (price - filter) < 0;
 //Фильтрация по удобствам
-const checkFasilities = (facilities, features) => {
-  //Считаем, что по умолчанию все удобства есть
-  let exists = true;
-  //пробегаем по всем отфильтрованным удобствам
-  facilities.filter((facility) => facility.value === true).forEach((facility) => {
-    //как только не находим первое из удобств, прекращаем работу фильтра
-    if (!exists) { return exists; }
-    //смотрим, что отмеченно удобство есть в предложении
-    exists = features.includes(facility.name);
-    return exists;
-  } );
-  return exists;
-};
+const checkFasilities = (facilities, features) => facilities.every((facility) => features.includes(facility.name));
 //фильтры карты
 const filterMap = (adertisement, type, price, rooms, guests, facilities, allfacilities) => {
   //проверка всех фильтров
@@ -81,27 +69,23 @@ const filterMap = (adertisement, type, price, rooms, guests, facilities, allfaci
       return false;
     }
   }
-  if (rooms !== NO_FILTER) {
-    if (Number(rooms) !== adertisement.offer.rooms) {
-      return false;
-    }
-  }
-  if (guests !== NO_FILTER) {
-    if (Number(guests) !== adertisement.offer.guests) {
-      return false;
-    }
-  }
-  if ('features' in adertisement.offer) {
-    if (!allfacilities) {
-      //проверка всех свойств
-      if ( !checkFasilities(facilities,adertisement.offer.features) ) {
-        return false;
-      }
-    }
-  } else {
+  if ( (rooms !== NO_FILTER) && (Number(rooms) !== adertisement.offer.rooms) ) {
     return false;
   }
-  // Возвращаем успех
+  if ( (guests !== NO_FILTER) && (Number(guests) !== adertisement.offer.guests) ) {
+    return false;
+  }
+  //указаны фильтры, удобства нужны
+  if (!allfacilities) {
+  // удобства указаны в предложении
+    if ('features' in adertisement.offer) {
+      //проверка всех выбранных фильтров удобств
+      return checkFasilities(facilities.filter((facility) => facility.value === true),adertisement.offer.features);
+    } else {
+      //есть запрос на удобства, а их нет совсем
+      return false;
+    }
+  }
   return true;
 };
 
@@ -132,13 +116,7 @@ const mapFiltersCleaner = () => {
 };
 
 // Проверка, что все фильтры доп.услуг пустые
-const allFasilitiesFiltersAreEmpty = (array) => array.every((element) => {
-  if (element.value) {
-    return false;
-  } else {
-    return true;
-  }
-});
+const allFasilitiesFiltersAreEmpty = (array) => array.every((element) => !element.value);
 
 //Собираем слои, на которых размещаются объявления
 const advertLayersCollector = [];
@@ -168,13 +146,14 @@ const refreshMap = () => {
   placeAdvertisements(advertisementsData);
 };
 
+const debounceMap = debounce(refreshMap);
 //Контроль изменения фильтров
-addEventListener(elementPrice, debounce(refreshMap));
-addEventListener(elementType, debounce(refreshMap));
-addEventListener(elementRooms, debounce(refreshMap));
-addEventListener(elementGuests, debounce(refreshMap));
+addKeyEventListener(elementType, debounceMap);
+addKeyEventListener(elementPrice, debounceMap);
+addKeyEventListener(elementRooms, debounceMap);
+addKeyEventListener(elementGuests, debounceMap);
 elementsFacilities.forEach((element) => {
-  addEventListener(element, debounce(refreshMap));
+  addKeyEventListener(element, debounceMap);
 });
 
 export {
