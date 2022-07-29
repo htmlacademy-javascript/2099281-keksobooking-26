@@ -1,12 +1,23 @@
-import { TIMEOUT_DELAY } from '../data/general.js';
-//Обработка системных сообщений
-const MESSAGE_TIME_OUT = 2000;
-
+import {
+  TIMEOUT_DELAY
+} from '../data/general.js';
 //Обработка клавиш
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
+//Удаление сообщения
+const removeMessage = (success) => {
+  let currentMessage = null;
+  if (success) {
+    currentMessage = document.querySelector('.success');
+  } else {
+    currentMessage = document.querySelector('.error');
+  }
+  //Так как сразу несколько событий могут пытаться удалить сообщение необходимо убедиться, что сообщение существует
+  if (currentMessage) {
+    currentMessage.remove();
+  }
+};
 //Показать сообщение
-const showSystemMessage = (message,success) => {
+const showSystemMessage = (message, success) => {
   let alertTemplate = '';
   if (success) {
     alertTemplate = document.querySelector('#success');
@@ -15,44 +26,22 @@ const showSystemMessage = (message,success) => {
   }
   const alertContainer = alertTemplate.cloneNode(true);
   const alertMessage = alertContainer.content.querySelector('p');
-  alertMessage.style.zIndex = '100';
-  alertMessage.style.position = 'absolute';
-  alertMessage.style.left = '0';
-  alertMessage.style.top = '0';
-  alertMessage.style.right = '0';
-  alertMessage.style.padding = '10px 3px';
-  alertMessage.style.fontSize = '30px';
-  alertMessage.style.textAlign = 'center';
-  if (success) {
-    alertMessage.style.backgroundColor = 'green';
-  }
-  else {
-    alertMessage.style.backgroundColor = 'red';
-  }
   alertMessage.textContent = message;
   document.body.append(alertContainer.content);
-  if (success) {
-    setTimeout(() => {
-      document.querySelector('.success').remove();
-    }, MESSAGE_TIME_OUT);
-  }
-  else{
+  if (!success) {
+    //Удаление ошибки по кнопке Eskape
     document.querySelector('.error__button').addEventListener('click', () => {
       document.querySelector('.error').remove();
-    }
-    );
+    });
   }
+  //Удаление сообщения по нажатию кнопки Escape
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      if (success) {
-        document.querySelector('.success').remove();
-      }
-      else {
-        document.querySelector('.error').remove();
-      }
+      removeMessage(success);
     }
   });
+  document.addEventListener('click',() => removeMessage(success), { once: true });
 };
 //Функция для определения окончания числительного
 const getWordEnding = (counter, modifier) => {
@@ -79,14 +68,16 @@ const getWordEnding = (counter, modifier) => {
 const handleError = (status, statusText) => {
   let errMessage = `${status} ${statusText}`;
   switch (status) {
-    case 400: errMessage = `Клиент: ${errMessage}`;
+    case 400:
+      errMessage = `Клиент: ${errMessage}`;
       break;
-    case 500: errMessage = `Сервер: ${errMessage}`;
+    case 500:
+      errMessage = `Сервер: ${errMessage}`;
       break;
     default:
       break;
   }
-  throw( errMessage );
+  throw (errMessage);
 };
 //адрес
 const fillAddressCoordinates = (lat, lng) => `${lat} , ${lng}`;
@@ -106,7 +97,9 @@ const debounce = (callback, timeoutDelay = TIMEOUT_DELAY) => {
   };
 };
 //Обработчик событий любого элемента
-const addKeyEventListener = (element, onChange ) => element.addEventListener('change', () => {onChange();});
+const addKeyEventListener = (element, onChange) => element.addEventListener('change', () => {
+  onChange();
+});
 
 export {
   showSystemMessage,

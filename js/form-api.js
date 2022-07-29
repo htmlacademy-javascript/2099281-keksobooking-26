@@ -198,13 +198,10 @@ resetButton.addEventListener('click', (evt) => {
 });
 //Обработка загрузки фото
 const loadPhoto = (input, output, newOutput ) => {
-
   input.addEventListener('change', () => {
     const file = input.files[0];
     const fileName = file.name.toLowerCase();
-
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
-
     if (matches) {
       if (newOutput) {
         const imgContainer = document.createElement('img');
@@ -217,7 +214,6 @@ const loadPhoto = (input, output, newOutput ) => {
       }
     }
   });
-
 };
 
 loadPhoto (document.querySelector('.ad-form__field input[type=file]'), document.querySelector('.ad-form-header__preview img'), false );

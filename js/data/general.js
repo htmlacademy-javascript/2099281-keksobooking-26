@@ -1,8 +1,3 @@
-//режим работы сайта
-const WORK_MODE = {
-  productive: false,
-  test: true
-};
 //Центр Токио
 const COORDINATES_TOKIO_CENTER = {
   lat: 35.681729,
@@ -37,7 +32,6 @@ const TIMEOUT_DELAY = 2000;
 
 export {
   FILE_TYPES,
-  WORK_MODE,
   COORDINATES_TOKIO_CENTER,
   COORDINATES_DECIMAL_PLACES,
   ROOM_PRICE_MAX,
