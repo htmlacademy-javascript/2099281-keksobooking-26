@@ -1040,22 +1040,10 @@ fieldset {
   color:red;
 }
 
-
-
-.custom-message{
+.custom-error__message{
   padding: 5px 5px;
   font-size: 26px;
   color: white;
   text-align: center;
-}
-.custom-error__message{
   background-color: red;
-}
-
-.custom-warning__message{
-  background-color: orange;
-}
-
-.custom-success__message{
-  background-color: green;
 }

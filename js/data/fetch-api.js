@@ -23,7 +23,7 @@ const getAdvertisementsAll = (beforeLoad, onSuccess, onError) => {
       }
     })
     .catch((err) => {
-      showSystemMessage(`Не удалось загрузить данные: ${err}`, false);
+      showSystemMessage(`Не удалось загрузить данные: ${err}`, false, true);
     });
 };
 //постинг формы документа
@@ -34,14 +34,14 @@ const postAdvertisementSingle = (body, onSuccess, onError) => {
   }, )
     .then((response) => {
       if (response.ok) {
-        showSystemMessage('Объявление успешно размещено!', true);
+        showSystemMessage('Объявление успешно размещено!', true, false);
         onSuccess();
       } else {
         onError(response.status, response.statusText);
       }
     })
     .catch((err) => {
-      showSystemMessage(`Не удалось отправить данные: ${err}`, false);
+      showSystemMessage(`Не удалось отправить данные: ${err}`, false, false);
     });
 };
 

@@ -17,7 +17,7 @@ const removeMessage = (success) => {
   }
 };
 //Показать сообщение
-const showSystemMessage = (message, success) => {
+const showSystemMessage = (message, success, custom) => {
   let alertTemplate = '';
   if (success) {
     alertTemplate = document.querySelector('#success');
@@ -27,9 +27,13 @@ const showSystemMessage = (message, success) => {
   const alertContainer = alertTemplate.cloneNode(true);
   const alertMessage = alertContainer.content.querySelector('p');
   alertMessage.textContent = message;
+  if (custom) {
+    //собстевенный стиль для сообщения об ошибке
+    alertMessage.classList.add('custom-error__message');
+  }
   document.body.append(alertContainer.content);
   if (!success) {
-    //Удаление ошибки по кнопке Eskape
+    //Удаление ошибки по кнопке Escape
     document.querySelector('.error__button').addEventListener('click', () => {
       document.querySelector('.error').remove();
     });
